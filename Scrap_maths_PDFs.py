@@ -1,7 +1,5 @@
 #!/bin/env python3.6
 
-
-
 import random
 import time
 import requests
@@ -16,12 +14,8 @@ import time
 import PyPDF2
 from urllib.parse import urlparse
 
-
-
 def is_absolute(url):
 	return bool(urlparse(url).netloc)
-
-
 
 async def get_url(url):
     print("Connecting with", url)
@@ -32,14 +26,11 @@ async def get_url(url):
                 print('Done: URL {} '.format(url))
                 return (await resp.text(), url)
 
-
-
 # extract links with BeautifulSoup
 def get_links_bs4(page):
     soup = bs4.BeautifulSoup(page, 'html.parser')
     links = soup.findAll('a', attrs={'href': re.compile("^http://")})
     return links
-
 
 @asyncio.coroutine  # Décorateur pour marquer les coroutines à base de générateur.
 async def process_as_results_come_in(k=3, URLs=['https://www.bbc.com/news/'], PDFs=[]):
@@ -73,8 +64,6 @@ async def process_as_results_come_in(k=3, URLs=['https://www.bbc.com/news/'], PD
     # ~ print(URLs)
     return PDFs
 
-
-
 async def download_coroutine(url):
     l=0
     try:
@@ -101,18 +90,12 @@ async def download_coroutine(url):
     else:
         return filename
 
-
-
-
 async def get_pdf_content_lines(fich):
     with open(fich, "rb") as f:
         pdf_reader = PyPDF2.PdfFileReader(f)
         for page in pdf_reader.pages:
             for line in page.extractText().splitlines():
                 yield line
-
-
-
 
 async def teste(fichier):
     name = ["lemme", "théorème", "lelasso", "preuve", "proposition", "max", "complexe", "math", "mathématiques"]
@@ -123,8 +106,6 @@ async def teste(fichier):
                 print(name[i] + " :  dans le pdf", fichier + ":peut etre un fichier  ")
                 l = 1
     return l
-
-
 
 async def main(urls,k):
     PDFs = await process_as_results_come_in(k=k, URLs=urls, PDFs=[])
@@ -143,9 +124,6 @@ async def main(urls,k):
     for pdf in PDFs:
         if os.path.basename(pdf) not in pdf2:
             print(os.path.basename(pdf))
-
-
-
 
 if __name__ == '__main__':
     url = ['https://www.bbc.com/news/']

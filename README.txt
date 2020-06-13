@@ -1,0 +1,1 @@
+The script collects multiple pdfs from multiple websites from a single website.
